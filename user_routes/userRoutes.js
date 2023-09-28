@@ -30,13 +30,13 @@ async function addUser(req, res) {
     first: req.body.users.first,
     last: req.body.users.last,
     email: req.body.users.email,
-    password: req.body.users.password,
     artist: req.body.users.artistCheck
   };
+  const password = await bcrypt.hash(req.body.users.password, 10);
   console.log("user", user)
   pool.query(
     `INSERT INTO users (first_name, last_name, email, password, artist)
-    VALUES ('${user.first}', '${user.last}', '${user.email}', '${user.password}', ${user.artist})`,
+    VALUES ('${user.first}', '${user.last}', '${user.email}', '${password}', ${user.artist})`,
     (error, results) => {
       if (error) {
         return res.send("error" + error);
