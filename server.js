@@ -8,12 +8,13 @@ const path = require('path');
 const Pool = require("pg").Pool;
 // const jwt = require("jsonwebtoken");
 const { getUsers } = require('./user_routes/userRoutes'); 
+const { verifyToken } = require('./auth_routes/authRoutes');
 
 app.get('/', (req, res) => {
-  res.send('Hello World!!!!');
+  res.send('Welcome To The Tatted Server!');
 });
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+app.listen(5000, () => console.log(`Server running on port ${PORT}!`));
 
 
 const pool = new Pool({
@@ -30,3 +31,4 @@ const pool = new Pool({
 //--------------------------------USERS TABLE----------------------------------------------------------------------------------------------------------------
 
 app.get('/users', getUsers)
+
