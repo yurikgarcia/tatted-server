@@ -1,6 +1,6 @@
 const Pool = require("pg").Pool;
 const jwt = require("jsonwebtoken");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 // require("dotenv").config();
 
 const pool = new Pool({
@@ -33,54 +33,52 @@ async function login(req, res) {
     email: req.body.user_email,
     password: req.body.user_password,
   };
-  console.log("LOGIN HIT", req.body)
   console.log("user when login", user.email);
   // console.log("LOGIN REQ", req.body);
-// pool.query(
-//     `SELECT * FROM users WHERE email='${user.email}'`,
-//     (error, results) => {
-//       if (error) {
-//         return res.send("error" + error);
-//       }
-//       // console.log("results.rows[0]", results.rows[0]);
-//       if (results.rows[0] === undefined) {
-//         return res.send("error" + error);
-//       }
-//       let hashedPassword = results.rows[0].user_password;
-//       // console.log("hashedPassword", hashedPassword)
-//       // console.log ("INPUT PASSWORD", user.password)
-//       bcrypt.compare(user.password, hashedPassword).then(function(result) {
-//         // result == true
-//         if (result === true) {
-//           jwt.sign(
-//             { user },
-//             "secretkey",
-//             { expiresIn: "1hr" },
-//             (err, token) => {
-//               res.json({
-//                 token,
-//                 user: {
-//                   user_email: results.rows[0].email,
-//                   user_first_name: results.rows[0].first_name,
-//                   user_last_name: results.rows[0].last_name,
-//                 }
-//               });
-//               console.log("TOKEN", user)
-//               console.log("HIT")
-//             }
-//             );
-//           } else {
-//             res.send("error" + error);
-//             console.log("NO BRO YOURE NOT ALLOWED")
-//           }
-//           // console.log("TOOOKKKENNN", token);
-//       // console.log("token in app.js", token);
-//       // console.log("user app.js", user);
-//       });
-//     }
-//   );
+pool.query(
+    `SELECT * FROM users WHERE email='${user.email}'`,
+    (error, results) => {
+      if (error) {
+        return res.send("error" + error);
+      }
+      // console.log("results.rows[0]", results.rows[0]);
+      if (results.rows[0] === undefined) {
+        return res.send("error" + error);
+      }
+      let hashedPassword = results.rows[0].password;
+      console.log("hashedPassword", hashedPassword)
+      // console.log ("INPUT PASSWORD", user.password)
+      bcrypt.compare(user.password, hashedPassword).then(function(result) {
+        // result == true
+        if (result === true) {
+          jwt.sign(
+            { user },
+            "secretkey",
+            { expiresIn: "1hr" },
+            (err, token) => {
+              res.json({
+                token,
+                user: {
+                  user_email: results.rows[0].email,
+                  user_first_name: results.rows[0].first_name,
+                  user_last_name: results.rows[0].last_name,
+                }
+              });
+              // console.log("TOKEN", user)
+              // console.log("HIT")
+            }
+            );
+          } else {
+            res.send("error" + error);
+            console.log("NO BRO YOURE NOT ALLOWED")
+          }
+          // console.log("TOOOKKKENNN", token);
+      // console.log("token in app.js", token);
+      // console.log("user app.js", user);
+      });
+    }
+  );
 }
-
 
 module.exports = {
   verifyToken,

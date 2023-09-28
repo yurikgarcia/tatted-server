@@ -25,7 +25,6 @@ async function getUsers(req, res) {
 };
 
 async function addUser(req, res) {
-  console.log("USERS HITTING", req.body.users)
   let user = {
     first: req.body.users.first,
     last: req.body.users.last,
