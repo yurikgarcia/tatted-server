@@ -1,6 +1,6 @@
 const Pool = require("pg").Pool;
-// const jwt = require("jsonwebtoken");
-// const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 // require("dotenv").config();
 
 const pool = new Pool({
@@ -23,19 +23,19 @@ function verifyToken(req, res, next) {
     req.token = bearerToken; //sets the bearer token to the request
     next(); //built in function that allows the middleware to run
   } else {
-    res.sendStatus(403); //sends a forbidden if there is no token
+    res.sendStatus(403); //sends a forbidden if there is no tokenn
   }
 }
 
-//funciton that checks if user.password equals the hashed password in the database and returns a token if it does
-// async function login(req, res) {
-//   let user = {
-//     email: req.body.user_email,
-//     password: req.body.user_password,
-//     warehouses: req.body.user_password
-//   };
-//   // console.log("user when login", user);
-//   // console.log("LOGIN REQ", req.body);
+//functio that checks if user.password equals the hashed password in the database and returns a token if it does
+async function login(req, res) {
+  let user = {
+    email: req.body.user_email,
+    password: req.body.user_password,
+  };
+  console.log("LOGIN HIT", req.body)
+  console.log("user when login", user.email);
+  // console.log("LOGIN REQ", req.body);
 // pool.query(
 //     `SELECT * FROM users WHERE email='${user.email}'`,
 //     (error, results) => {
@@ -61,13 +61,8 @@ function verifyToken(req, res, next) {
 //                 token,
 //                 user: {
 //                   user_email: results.rows[0].email,
-//                   user_dod_id: results.rows[0].dod_id,
 //                   user_first_name: results.rows[0].first_name,
 //                   user_last_name: results.rows[0].last_name,
-//                   user_dod_id: results.rows[0].dod_id,
-//                   USER_warehouses: results.rows[0].warehouse_access,
-//                   admin_warehouses: results.rows[0].warehouse_access,
-//                   admin_organization: results.rows[0].organization
 //                 }
 //               });
 //               console.log("TOKEN", user)
@@ -84,9 +79,10 @@ function verifyToken(req, res, next) {
 //       });
 //     }
 //   );
-// }
+}
 
 
 module.exports = {
   verifyToken,
+  login,
 };

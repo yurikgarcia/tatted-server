@@ -7,14 +7,19 @@ const PORT = process.env.PORT || 5000;
 const path = require('path');
 const Pool = require("pg").Pool;
 // const jwt = require("jsonwebtoken");
-const { getUsers } = require('./user_routes/userRoutes'); 
-const { verifyToken } = require('./auth_routes/authRoutes');
+const { getUsers, addUser } = require('./user_routes/userRoutes'); 
+const { verifyToken, login } = require('./auth_routes/authRoutes');
 
 app.get('/', (req, res) => {
   res.send('Welcome To The Tatted Server!');
 });
 
 app.listen(5000, () => console.log(`Server running on port ${PORT}!`));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan("dev"));
+app.use(cors());
 
 
 const pool = new Pool({
@@ -31,4 +36,8 @@ const pool = new Pool({
 //--------------------------------USERS TABLE----------------------------------------------------------------------------------------------------------------
 
 app.get('/users', getUsers)
+app.post('/users', addUser)
+
+//--------------------------------LOGIN AUTH----------------------------------------------------------------------------------------------------------------
+app.post('/login', login)
 

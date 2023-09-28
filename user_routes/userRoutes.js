@@ -1,7 +1,7 @@
 const Pool = require("pg").Pool;
-// const jwt = require("jsonwebtoken");
-// const { verifyToken } = require("../auth_routes/authRoutes");
-// const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+const { verifyToken } = require("../auth_routes/authRoutes");
+const bcrypt = require('bcrypt');
 // require("dotenv").config();
 
 const pool = new Pool({
@@ -24,7 +24,32 @@ async function getUsers(req, res) {
   });
 };
 
+async function addUser(req, res) {
+  console.log("USERS HITTING", req.body.users)
+  let user = {
+    first: req.body.users.first,
+    last: req.body.users.last,
+    email: req.body.users.email,
+    password: req.body.users.password,
+    artist: req.body.users.artistCheck
+  };
+  console.log("user", user)
+  pool.query(
+    `INSERT INTO users (first_name, last_name, email, password, artist)
+    VALUES ('${user.first}', '${user.last}', '${user.email}', '${user.password}', ${user.artist})`,
+    (error, results) => {
+      if (error) {
+        return res.send("error" + error);
+      }
+      console.log("Added User to Database");
+      res.status(200);
+      res.send("Success");
+    }
+  );
+};
+
 
 module.exports = {
   getUsers,
+  addUser
 };
