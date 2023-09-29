@@ -8,6 +8,7 @@ const path = require('path');
 const Pool = require("pg").Pool;
 // const jwt = require("jsonwebtoken");
 const { getUsers, addUser } = require('./user_routes/userRoutes'); 
+const { getFollowing } = require('./user_routes/following');
 const { verifyToken, login } = require('./auth_routes/authRoutes');
 
 app.get('/', (req, res) => {
@@ -15,7 +16,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(5000, () => console.log(`Server running on port ${PORT}!`));
-
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
@@ -33,8 +34,10 @@ const pool = new Pool({
   },
 });
 
-//--------------------------------USERS TABLE----------------------------------------------------------------------------------------------------------------
+//--------------------------------FOLLOWING----------------------------------------------------------------------------------------------------------------
+app.get('/following/:userID', getFollowing)
 
+//--------------------------------USERS TABLE----------------------------------------------------------------------------------------------------------------
 app.get('/users', getUsers)
 app.post('/users', addUser)
 
