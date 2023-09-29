@@ -15,9 +15,9 @@ const pool = new Pool({
   },
 });
 
-async function getFollowing(req, res) {
+async function getFollowingUUID(req, res) {
   const usersID = req.params.userID
-  console.log ("HELLLOOO",usersID)
+  console.log ("UUIDS",usersID)
   pool.query(`SELECT following FROM users WHERE user_id = '${usersID}'`, (error, results) => {
     if (error) {
       res.send("error" + error);
@@ -26,7 +26,19 @@ async function getFollowing(req, res) {
   });
 };
 
+async function getArtistFollowing(req, res) {
+  const artistUUID = req.params.artistUUID
+  console.log ("HELLLOOO FROM UR ARTIST", req.params.artistUUID)
+  pool.query(`SELECT * FROM users WHERE user_id = '${artistUUID}'`, (error, results) => {
+    if (error) {
+      res.send("error" + error);
+    }
+    res.send(results.rows);
+  });
+};
+
 module.exports = {
-  getFollowing,
+  getFollowingUUID,
+  getArtistFollowing
 };
 //s

@@ -8,7 +8,7 @@ const path = require('path');
 const Pool = require("pg").Pool;
 // const jwt = require("jsonwebtoken");
 const { getUsers, addUser } = require('./user_routes/userRoutes'); 
-const { getFollowing } = require('./user_routes/following');
+const { getFollowingUUID, getArtistFollowing } = require('./user_routes/following');
 const { verifyToken, login } = require('./auth_routes/authRoutes');
 
 app.get('/', (req, res) => {
@@ -35,7 +35,8 @@ const pool = new Pool({
 });
 
 //--------------------------------FOLLOWING----------------------------------------------------------------------------------------------------------------
-app.get('/following/:userID', getFollowing)
+app.get('/following/:userID', getFollowingUUID)
+app.get('/artistFollowing/:artistUUID', getArtistFollowing)
 
 //--------------------------------USERS TABLE----------------------------------------------------------------------------------------------------------------
 app.get('/users', getUsers)
@@ -43,4 +44,3 @@ app.post('/users', addUser)
 
 //--------------------------------LOGIN AUTH----------------------------------------------------------------------------------------------------------------
 app.post('/login', login)
-
