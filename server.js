@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 5000;
 const path = require('path');
 const Pool = require("pg").Pool;
 // const jwt = require("jsonwebtoken");
+const { getArtist } = require('./user_routes/artist'); 
 const { getUsers, addUser } = require('./user_routes/userRoutes'); 
 const { getFollowingUUID, getArtistFollowing } = require('./user_routes/following');
 const { verifyToken, login } = require('./auth_routes/authRoutes');
@@ -35,6 +36,8 @@ const pool = new Pool({
   },
 });
 
+//--------------------------------USERS----------------------------------------------------------------------------------------------------------------
+app.get('/artist/:artistID', getArtist)
 //--------------------------------FOLLOWING----------------------------------------------------------------------------------------------------------------
 app.get('/following/:userID', getFollowingUUID)
 app.get('/artistFollowing/:artistUUID', getArtistFollowing)
