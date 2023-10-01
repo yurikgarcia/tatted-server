@@ -37,17 +37,20 @@ async function addToFavs(req, res) {
 };
 
 async function unFollowArtist(req, res) {
-  const userID = req.body.userID;
-  const artistID = req.body.artistID;
+  const userID = req.params.userID;
+  const artistID = req.params.artistID;
+  console.log("artistID", artistID)
+  console.log("userID", userID)
+  console.log("Hitting here")
   pool.query(
     `UPDATE users
-    SET following = following - '"${artistID}"'
-    WHERE user_id = '${userID}';`,
+    SET following = following - '${artistID}'
+    WHERE user_id = '${userID}'`,
     (error, results) => {
       if (error) {
         return res.send("error" + error);
       }
-      console.log("Added User to Database");
+      console.log("UNFOLLOWS ARTIST");
       res.status(200);
       res.send("Success");
     }

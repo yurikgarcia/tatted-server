@@ -42,7 +42,7 @@ app.get('/allArtist/', getAllArtist)
 //--------------------------------FOLLOWING----------------------------------------------------------------------------------------------------------------
 app.get('/following/:userID', getFollowingUUID)
 app.get('/artistFollowing/:artistUUID', getArtistFollowing)
-app.delete('/unfollowArtist', unFollowArtist)
+app.delete('/unfollowArtist/:userID/:artistID', unFollowArtist)
 app.post('/addToFavs', addToFavs)
 
 //--------------------------------USERS----------------------------------------------------------------------------------------------------------------
