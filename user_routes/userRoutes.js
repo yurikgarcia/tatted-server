@@ -34,7 +34,6 @@ async function addUser(req, res) {
     artist: req.body.users.artistCheck
   };
   const password = await bcrypt.hash(req.body.users.password, 10);
-  console.log("user", user)
   pool.query(
     `INSERT INTO users (first_name, last_name, email, password, artist)
     VALUES ('${user.first}', '${user.last}', '${user.email}', '${password}', ${user.artist})`,

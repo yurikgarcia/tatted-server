@@ -7,11 +7,11 @@ const PORT = process.env.PORT || 5000;
 const path = require('path');
 const Pool = require("pg").Pool;
 // const jwt = require("jsonwebtoken");
-const { getArtist } = require('./user_routes/artist'); 
+const { getArtist, getAllArtist } = require('./user_routes/artist'); 
 const { getUsers, addUser } = require('./user_routes/userRoutes'); 
 const { getFollowingUUID, getArtistFollowing } = require('./user_routes/following');
 const { verifyToken, login } = require('./auth_routes/authRoutes');
-const { addToFavs } = require('./user_routes/favs');
+const { addToFavs, unFollowArtist } = require('./user_routes/favs');
 
 app.get('/', (req, res) => {
   res.send('Welcome To The Tatted Server!');
@@ -36,16 +36,18 @@ const pool = new Pool({
   },
 });
 
-//--------------------------------USERS----------------------------------------------------------------------------------------------------------------
+//--------------------------------ARTISTS----------------------------------------------------------------------------------------------------------------
 app.get('/artist/:artistID', getArtist)
+app.get('/allArtist/', getAllArtist)
 //--------------------------------FOLLOWING----------------------------------------------------------------------------------------------------------------
 app.get('/following/:userID', getFollowingUUID)
 app.get('/artistFollowing/:artistUUID', getArtistFollowing)
+app.delete('/unfollowArtist', unFollowArtist)
+app.post('/addToFavs', addToFavs)
 
 //--------------------------------USERS----------------------------------------------------------------------------------------------------------------
 app.get('/users', getUsers)
 app.post('/users', addUser)
-app.post('/addToFavs', addToFavs)
 
 //--------------------------------LOGIN AUTH----------------------------------------------------------------------------------------------------------------
 app.post('/login', login)

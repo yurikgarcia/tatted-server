@@ -1,7 +1,7 @@
 const Pool = require("pg").Pool;
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../auth_routes/authRoutes");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 // require("dotenv").config();
 
 const pool = new Pool({
@@ -15,20 +15,36 @@ const pool = new Pool({
   },
 });
 
-
-
 async function getArtist(req, res) {
   const artistID = req.params.artistID;
-  pool.query(`SELECT * FROM users WHERE user_id = '${artistID}'`, (error, results) => {
-    if (error) {
-      res.send("error" + error);
+  pool.query(
+    `SELECT * FROM users WHERE user_id = '${artistID}'`,
+    (error, results) => {
+      if (error) {
+        res.send("error" + error);
+      }
+      res.send(results.rows);
     }
-    res.send(results.rows);
-  });
-};
-//s
+  );
+}
 
+async function getAllArtist(req, res) {
+  console.log("HELLLO");
+  pool.query(
+    `SELECT * FROM users WHERE artist = 'true'`,
+    (error, results) => {
+      if (error) {
+        res.send("error" + error);
+      }
+      res.send(results.rows);
+      console.log(results.rows);
+    }
+  );
+}
+//s
 
 module.exports = {
   getArtist,
+  getAllArtist
 };
+///ddcffsss
