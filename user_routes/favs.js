@@ -41,7 +41,7 @@ async function unFollowArtist(req, res) {
   const artistID = req.params.artistID;
   console.log("artistID", artistID)
   console.log("userID", userID)
-  console.log("Hitting here")
+  console.log("Deleted Artist")
   pool.query(
     `UPDATE users
     SET following = following - '${artistID}'

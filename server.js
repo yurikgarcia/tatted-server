@@ -9,6 +9,7 @@ const Pool = require("pg").Pool;
 // const jwt = require("jsonwebtoken");
 const { getArtist, getAllArtist } = require('./user_routes/artist'); 
 const { getUsers, addUser } = require('./user_routes/userRoutes'); 
+const { getReviews, addReview } = require('./reviews/reviewRoutes'); 
 const { getFollowingUUID, getArtistFollowing } = require('./user_routes/following');
 const { verifyToken, login } = require('./auth_routes/authRoutes');
 const { addToFavs, unFollowArtist } = require('./user_routes/favs');
@@ -48,6 +49,10 @@ app.post('/addToFavs', addToFavs)
 //--------------------------------USERS----------------------------------------------------------------------------------------------------------------
 app.get('/users', getUsers)
 app.post('/users', addUser)
+
+//--------------------------------REVIEWS----------------------------------------------------------------------------------------------------------------
+app.post('/reviews', addReview)
+app.get('/getReviews', getReviews)
 
 //--------------------------------LOGIN AUTH----------------------------------------------------------------------------------------------------------------
 app.post('/login', login)

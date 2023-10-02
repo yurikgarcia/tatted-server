@@ -16,7 +16,7 @@ const pool = new Pool({
 });
 
 async function getFollowingUUID(req, res) {
-  console.log("Hitting here")
+  console.log("Hitting here!!")
   const usersID = req.params.userID
   pool.query(`SELECT following FROM users WHERE user_id = '${usersID}'`, (error, results) => {
     if (error) {
