@@ -31,10 +31,12 @@ async function addReview(req, res) {
   const userID = req.body.userID;
   const artistID = req.body.artistID;
   const review = req.body.review;
-  console.log("review", review, "userID", userID, "artistID", artistID)
+  const reviewerFirst = req.body.reviewerFirstName;
+  const reviewerLast = req.body.reviewerLastName;
+  const starReview = req.body.starReviews;
   pool.query(
-    `INSERT INTO reviews (review, date, artist_uuid, reviewer_name, rating)
-    VALUES ('${review.review}', '${review.date}', '${artistID}', 'Yurik Garcia', '${review.rating}')`,
+    `INSERT INTO reviews (review, date, artist_uuid, rating, reviewer_first, reviewer_last)
+    VALUES ('${review.review}', '${review.date}', '${artistID}', '${starReview}', '${reviewerFirst}', '${reviewerLast}')`,
     (error, results) => {
       if (error) {
         return res.send("error" + error);
