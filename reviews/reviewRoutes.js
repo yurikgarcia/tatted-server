@@ -18,13 +18,13 @@ const pool = new Pool({
 
 
 async function getReviews(req, res) {
-  console.log("HITTING HERE  REVIEWS")
-  // pool.query("SELECT * FROM users", (error, results) => {
-  //   if (error) {
-  //     res.send("error" + error);
-  //   }
-  //   res.send(results.rows);
-  // });
+  const artistUUID = req.params.artistID;
+  pool.query(`SELECT * FROM reviews WHERE artist_uuid = '${artistUUID}' `, (error, results) => {
+    if (error) {
+      res.send("error" + error);
+    }
+    res.send(results.rows);
+  });
 };
 
 async function addReview(req, res) {
@@ -48,7 +48,7 @@ async function addReview(req, res) {
   );
   
 };
-//s
+//sklnlk
 
 
 module.exports = {
